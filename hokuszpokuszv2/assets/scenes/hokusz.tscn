@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3kpec8s1cgge"]
+
+[ext_resource type="Texture2D" uid="uid://cfnokio737jam" path="res://assets/sprites/Hokusz/Hokusz-1.png" id="1_nocme"]
+[ext_resource type="Texture2D" uid="uid://teauh3yxem8y" path="res://assets/sprites/Hokusz/Hokusz-2.png" id="2_yck5k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yivj"]
+size = Vector2(70, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vv2x2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_nocme")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_yck5k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="Hokusz" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7yivj")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vv2x2")
+frame_progress = 0.0927938
