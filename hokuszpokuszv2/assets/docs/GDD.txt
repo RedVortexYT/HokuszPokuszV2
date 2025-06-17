@@ -1,0 +1,22 @@
+***********************
+*                     *
+*   HÓKUSZPÓKUSZ V2   *
+*                     *
+***********************
+
+=== [ STYLE ] ===
+ - 2D
+ - Side view
+ - Pixelart
+
+=== [ GAMEPLAY ] ===
+ - Similar to aSitN, but with sword
+ - Wave-based
+ - Simple mechanics
+
+=== [ CHARACTERS ] ===
+ - Hókusz
+	- Main enemy
+ - _____
+	- Player
+	- Sword
