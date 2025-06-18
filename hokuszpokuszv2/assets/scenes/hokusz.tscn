@@ -1,10 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3kpec8s1cgge"]
+[gd_scene load_steps=7 format=3 uid="uid://c3kpec8s1cgge"]
 
 [ext_resource type="Texture2D" uid="uid://cfnokio737jam" path="res://assets/sprites/Hokusz/Hokusz-1.png" id="1_nocme"]
 [ext_resource type="Texture2D" uid="uid://teauh3yxem8y" path="res://assets/sprites/Hokusz/Hokusz-2.png" id="2_yck5k"]
+[ext_resource type="Texture2D" uid="uid://ba0fcg381irok" path="res://assets/sprites/Hokusz/Hokusz-3.png" id="3_joahy"]
+[ext_resource type="Texture2D" uid="uid://7svw4hi41kba" path="res://assets/sprites/Hokusz/Hokusz-4.png" id="4_iceic"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7yivj"]
-size = Vector2(70, 80)
+size = Vector2(56, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_vv2x2"]
 animations = [{
@@ -14,6 +16,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("2_yck5k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_joahy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_iceic")
 }],
 "loop": true,
 "name": &"default",
@@ -27,4 +35,4 @@ shape = SubResource("RectangleShape2D_7yivj")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vv2x2")
-frame_progress = 0.0576013
+frame_progress = 0.168564
