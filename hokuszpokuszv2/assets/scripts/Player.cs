@@ -1,15 +1,24 @@
 using Godot;
-using System;
 
 public partial class Player : CharacterBody2D
 {
 	public AnimatedSprite2D ANIM;
 	public Area2D SWORD;
+	public bool canAttack;
 	public const float SPEED = 300.0f;
 	public const float JUMPVELOCITY = 750.0f;
 
+	public void OnAttackTimerTimeout() {
+		canAttack = true;
+	}
+
+	public void OnAnimTimerTimeout() {
+		SWORD.Rotation = 0;
+	}
+
 	public override void _Ready()
 	{
+		canAttack = true;
 		ANIM = GetNode<AnimatedSprite2D>("Anim");
 		SWORD = GetNode<Area2D>("Sword");
     }
@@ -61,16 +70,37 @@ public partial class Player : CharacterBody2D
 			ANIM.Stop();
 		}
 
-		// Sword
+		// Sword Position
 		if (direction < 0)
 		{
-			SWORD.Position = new Vector2(-32, -8);
+			SWORD.Position = new Vector2(-32, 4);
 			SWORD.GetNode<Sprite2D>("Sprite").FlipH = true;
 		}
 		else if (direction > 0)
 		{
-			SWORD.Position = new Vector2(32, -8);
+			SWORD.Position = new Vector2(32, 4);
 			SWORD.GetNode<Sprite2D>("Sprite").FlipH = false;
+		}
+
+		// Attack
+		if (Input.IsActionPressed("attack") && canAttack)
+		{
+			GD.Print("test");
+			canAttack = false;
+			GetNode<Timer>("Sword/AttackTimer").Start();
+			GetNode<Timer>("Sword/AnimTimer").Start();
+			if (SWORD.Position.X == -32)
+			{
+				SWORD.Rotate(-16 * (float)delta);
+			}
+			else
+			{			
+				SWORD.Rotate(16 * (float)delta);
+			}
+		}
+
+		if (SWORD.Rotation != 0) {
+			SWORD.Rotate(SWORD.Position.X / 2 * (float)delta);
 		}
 
 	}
