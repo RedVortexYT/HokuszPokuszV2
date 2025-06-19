@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3kpec8s1cgge"]
+[gd_scene load_steps=9 format=3 uid="uid://c3kpec8s1cgge"]
 
 [ext_resource type="Script" uid="uid://bnndyaqawag1q" path="res://assets/scripts/Hokusz.cs" id="1_iceic"]
 [ext_resource type="Texture2D" uid="uid://cfnokio737jam" path="res://assets/sprites/Hokusz/Hokusz-1.png" id="1_nocme"]
@@ -29,6 +29,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iceic"]
+size = Vector2(56, 64)
+
 [node name="Hokusz" type="CharacterBody2D"]
 script = ExtResource("1_iceic")
 
@@ -43,4 +46,10 @@ frame_progress = 0.168564
 wait_time = 3.0
 autostart = true
 
+[node name="CollCheck" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollCheck"]
+shape = SubResource("RectangleShape2D_iceic")
+
 [connection signal="timeout" from="LocateTimer" to="." method="LocatePlayer"]
+[connection signal="area_entered" from="CollCheck" to="." method="OnAreaEntered"]

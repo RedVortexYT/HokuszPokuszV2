@@ -8,13 +8,8 @@ public partial class Player : CharacterBody2D
 	public const float SPEED = 300.0f;
 	public const float JUMPVELOCITY = 750.0f;
 
-	public void OnAttackTimerTimeout() {
-		canAttack = true;
-	}
-
-	public void OnAnimTimerTimeout() {
-		SWORD.Rotation = 0;
-	}
+	public void OnAttackTimerTimeout() { canAttack = true; }
+	public void OnAnimTimerTimeout() { SWORD.Rotation = 0; }
 
 	public override void _Ready()
 	{

@@ -24,6 +24,10 @@ window/size/viewport_height=540
 
 project/assembly_name="HokuszPokuszV2"
 
+[global_group]
+
+sword=""
+
 [input]
 
 moveL={

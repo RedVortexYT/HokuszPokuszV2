@@ -7,6 +7,18 @@ public partial class Hokusz : CharacterBody2D
 	public const float Speed = 300.0f;
 	public const float JumpVelocity = 750.0f;
 
+	// Collision
+	public void OnAreaEntered(Area2D area)
+	{
+		GD.Print("COLLISION");
+		if (area.IsInGroup("sword"))
+		{
+			GlobalData.GameData._score += 100;
+			QueueFree();
+		}
+	}
+
+	// Move to player
 	public void LocatePlayer()
 	{
 		var playerPos = GetNode<CharacterBody2D>("../../Player").GlobalPosition;
@@ -58,5 +70,6 @@ public partial class Hokusz : CharacterBody2D
 
 		Velocity = velocity;
 		MoveAndSlide();
+		
 	}
 }

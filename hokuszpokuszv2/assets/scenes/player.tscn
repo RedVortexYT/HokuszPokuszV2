@@ -43,7 +43,7 @@ shape = SubResource("RectangleShape2D_0gfpk")
 sprite_frames = SubResource("SpriteFrames_o5c66")
 frame_progress = 0.477775
 
-[node name="Sword" type="Area2D" parent="."]
+[node name="Sword" type="Area2D" parent="." groups=["sword"]]
 position = Vector2(32, 4)
 
 [node name="Hitbox" type="CollisionShape2D" parent="Sword"]
