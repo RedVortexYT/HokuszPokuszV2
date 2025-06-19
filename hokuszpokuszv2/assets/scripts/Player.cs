@@ -8,14 +8,24 @@ public partial class Player : CharacterBody2D
 	public const float SPEED = 300.0f;
 	public const float JUMPVELOCITY = 750.0f;
 
-	public void OnAttackTimerTimeout() { canAttack = true; }
-	public void OnAnimTimerTimeout() { SWORD.Rotation = 0; }
+	public void OnAttackTimerTimeout()
+	{
+		canAttack = true;
+		GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
+			CollisionShape2D.PropertyName.Disabled,
+			true
+		);
+	}
 
 	public override void _Ready()
 	{
 		canAttack = true;
 		ANIM = GetNode<AnimatedSprite2D>("Anim");
 		SWORD = GetNode<Area2D>("Sword");
+		GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
+			CollisionShape2D.PropertyName.Disabled,
+			true
+		);
     }
 
 
@@ -80,15 +90,27 @@ public partial class Player : CharacterBody2D
 		// Attack
 		if (Input.IsActionPressed("attack") && canAttack)
 		{
-			GD.Print("test");
+			GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
+				CollisionShape2D.PropertyName.Disabled,
+				false
+			);
+
 			canAttack = false;
 			GetNode<Timer>("Sword/AttackTimer").Start();
-			GetNode<Timer>("Sword/AnimTimer").Start();
-			SWORD.Rotate(SWORD.Position.X / 2 * (float)delta);
+
+			SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
 		}
 
-		if (SWORD.Rotation != 0) {
-			SWORD.Rotate(SWORD.Position.X / 2 * (float)delta);
+		// Sword Rotation
+		if (SWORD.Rotation != 0)
+		{
+			SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
+		}
+
+		// Sword Rotation Reset
+		if (SWORD.Rotation > Mathf.DegToRad(360) || SWORD.Rotation < Mathf.DegToRad(-360))
+		{
+			SWORD.Rotation = 0;
 		}
 
 	}

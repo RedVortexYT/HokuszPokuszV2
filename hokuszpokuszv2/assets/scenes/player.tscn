@@ -58,9 +58,4 @@ texture = ExtResource("5_8sknh")
 wait_time = 0.5
 one_shot = true
 
-[node name="AnimTimer" type="Timer" parent="Sword"]
-wait_time = 0.375
-one_shot = true
-
 [connection signal="timeout" from="Sword/AttackTimer" to="." method="OnAttackTimerTimeout"]
-[connection signal="timeout" from="Sword/AnimTimer" to="." method="OnAnimTimerTimeout"]
