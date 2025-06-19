@@ -27,6 +27,7 @@ project/assembly_name="HokuszPokuszV2"
 [global_group]
 
 sword=""
+enemy=""
 
 [input]
 

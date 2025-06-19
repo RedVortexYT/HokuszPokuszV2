@@ -2,15 +2,14 @@ using Godot;
 
 public partial class Hokusz : CharacterBody2D
 {
-	public int direction;
+	public int direction = 1;
 	public bool jump;
-	public const float Speed = 300.0f;
+	public const float Speed = 250.0f;
 	public const float JumpVelocity = 750.0f;
 
 	// Collision
 	public void OnAreaEntered(Area2D area)
 	{
-		GD.Print("COLLISION");
 		if (area.IsInGroup("sword"))
 		{
 			GlobalData.GameData._score += 100;

@@ -30,9 +30,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iceic"]
-size = Vector2(56, 64)
+size = Vector2(60, 68)
 
-[node name="Hokusz" type="CharacterBody2D"]
+[node name="Hokusz" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
 script = ExtResource("1_iceic")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -46,7 +47,9 @@ frame_progress = 0.168564
 wait_time = 3.0
 autostart = true
 
-[node name="CollCheck" type="Area2D" parent="."]
+[node name="CollCheck" type="Area2D" parent="." groups=["enemy"]]
+collision_layer = 8
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollCheck"]
 shape = SubResource("RectangleShape2D_iceic")

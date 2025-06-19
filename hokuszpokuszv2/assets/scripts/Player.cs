@@ -8,6 +8,25 @@ public partial class Player : CharacterBody2D
 	public const float SPEED = 300.0f;
 	public const float JUMPVELOCITY = 750.0f;
 
+	// Game Over
+	public void OnAreaEntered(Area2D area)
+	{
+		if (area.IsInGroup("enemy"))
+		{
+			GetNode<CollisionShape2D>("Hitbox").SetDeferred(
+				CollisionShape2D.PropertyName.Disabled,
+				true
+			);
+			Hide();
+
+			GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
+				CollisionShape2D.PropertyName.Disabled,
+				true
+			);
+		}
+	}
+
+	// Attack Cooldown
 	public void OnAttackTimerTimeout()
 	{
 		canAttack = true;

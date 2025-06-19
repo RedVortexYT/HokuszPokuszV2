@@ -34,6 +34,8 @@ animations = [{
 size = Vector2(10, 40)
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 9
 script = ExtResource("1_0gfpk")
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
@@ -45,6 +47,8 @@ frame_progress = 0.477775
 
 [node name="Sword" type="Area2D" parent="." groups=["sword"]]
 position = Vector2(32, 4)
+collision_layer = 4
+collision_mask = 8
 
 [node name="Hitbox" type="CollisionShape2D" parent="Sword"]
 position = Vector2(0, -12)
@@ -58,4 +62,13 @@ texture = ExtResource("5_8sknh")
 wait_time = 0.5
 one_shot = true
 
+[node name="CollCheck" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollHitbox" type="CollisionShape2D" parent="CollCheck"]
+scale = Vector2(1.05, 1.05)
+shape = SubResource("RectangleShape2D_0gfpk")
+
 [connection signal="timeout" from="Sword/AttackTimer" to="." method="OnAttackTimerTimeout"]
+[connection signal="area_entered" from="CollCheck" to="." method="OnAreaEntered"]
