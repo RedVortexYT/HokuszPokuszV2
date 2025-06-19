@@ -4,7 +4,7 @@ public partial class Hokusz : CharacterBody2D
 {
 	public int direction = 1;
 	public bool jump;
-	public const float Speed = 250.0f;
+	public const float Speed = 100.0f;
 	public const float JumpVelocity = 750.0f;
 
 	// Collision
@@ -20,6 +20,7 @@ public partial class Hokusz : CharacterBody2D
 	// Move to player
 	public void LocatePlayer()
 	{
+		if (GetNode<CharacterBody2D>("../../Player") == null) { direction = 0; return; }
 		var playerPos = GetNode<CharacterBody2D>("../../Player").GlobalPosition;
 		var enemyPos = GlobalPosition;
 
