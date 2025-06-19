@@ -84,6 +84,7 @@ tile_set = SubResource("TileSet_2xx0o")
 [node name="Hokusz" type="Node2D" parent="."]
 
 [node name="Hokusz" parent="Hokusz" instance=ExtResource("2_kpi06")]
+position = Vector2(128, 448)
 
 [node name="HokuszSpawn" type="Marker2D" parent="Hokusz"]
 position = Vector2(128, 448)

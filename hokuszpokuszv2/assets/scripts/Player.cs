@@ -89,14 +89,7 @@ public partial class Player : CharacterBody2D
 			canAttack = false;
 			GetNode<Timer>("Sword/AttackTimer").Start();
 			GetNode<Timer>("Sword/AnimTimer").Start();
-			if (SWORD.Position.X == -32)
-			{
-				SWORD.Rotate(-16 * (float)delta);
-			}
-			else
-			{			
-				SWORD.Rotate(16 * (float)delta);
-			}
+			SWORD.Rotate(SWORD.Position.X / 2 * (float)delta);
 		}
 
 		if (SWORD.Rotation != 0) {
