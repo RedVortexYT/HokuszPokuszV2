@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3kpec8s1cgge"]
+[gd_scene load_steps=11 format=3 uid="uid://c3kpec8s1cgge"]
 
 [ext_resource type="Script" uid="uid://bnndyaqawag1q" path="res://assets/scripts/Hokusz.cs" id="1_iceic"]
 [ext_resource type="Texture2D" uid="uid://cfnokio737jam" path="res://assets/sprites/Hokusz/Hokusz-1.png" id="1_nocme"]
 [ext_resource type="Texture2D" uid="uid://teauh3yxem8y" path="res://assets/sprites/Hokusz/Hokusz-2.png" id="2_yck5k"]
 [ext_resource type="Texture2D" uid="uid://ba0fcg381irok" path="res://assets/sprites/Hokusz/Hokusz-3.png" id="3_joahy"]
 [ext_resource type="Texture2D" uid="uid://7svw4hi41kba" path="res://assets/sprites/Hokusz/Hokusz-4.png" id="4_iceic"]
+[ext_resource type="AudioStream" uid="uid://ce2y1vn03ts24" path="res://assets/sounds/8-bit-explosion-11-340459.ogg" id="6_75ovv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7yivj"]
 size = Vector2(56, 64)
@@ -32,15 +33,27 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iceic"]
 size = Vector2(60, 68)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_75ovv"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 0)
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 450, 0)
+scale_min = 5.0
+scale_max = 5.0
+color = Color(0.588235, 0, 0, 1)
+
 [node name="Hokusz" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 8
 collision_mask = 9
 script = ExtResource("1_iceic")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_7yivj")
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Anim" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vv2x2")
 frame_progress = 0.168564
 
@@ -55,5 +68,19 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollCheck"]
 shape = SubResource("RectangleShape2D_iceic")
 
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_75ovv")
+
+[node name="DeathParticle" type="GPUParticles2D" parent="."]
+emitting = false
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_75ovv")
+
+[node name="QueueFreeTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="LocateTimer" to="." method="LocatePlayer"]
 [connection signal="area_entered" from="CollCheck" to="." method="OnAreaEntered"]
+[connection signal="timeout" from="QueueFreeTimer" to="." method="OnQueueFreeTimerTimeout"]

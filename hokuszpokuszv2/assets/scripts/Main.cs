@@ -6,6 +6,8 @@ public partial class Main : Node
 	[Export]
 	public PackedScene EnemyScene;
 
+	public Timer SPAWNTIMER;
+	
 	// Enemy Spawning
 	public void OnSpawnTimerTimeout() { SpawnEnemy(); }
 	public void SpawnEnemy(int _spawnPos = -1)
@@ -21,11 +23,33 @@ public partial class Main : Node
 
 	public override void _Ready()
 	{
-		for (int i = 1; i <= 5; i++) { SpawnEnemy(i); }
+		SPAWNTIMER = GetNode<Timer>("Hokusz/SpawnTimer");
 	}
 
 
 	public override void _Process(double delta)
 	{
+		var gameState = GlobalData.GameData._gameState;
+		var score = GlobalData.GameData._score;
+
+		if (gameState == GlobalData.GameState.Menu)
+		{
+			GlobalData.GameData._score = 0;
+			SPAWNTIMER.Stop();
+		}
+
+		else if (gameState == GlobalData.GameState.Playing)
+		{
+			// HiScore Update
+			if (score > GlobalData.GameData._hiScore)
+			{
+				GlobalData.GameData._hiScore = score;
+			}
+		}
+
+		else if (gameState == GlobalData.GameState.GameOver)
+		{
+			SPAWNTIMER.Stop();
+		}
 	}
 }

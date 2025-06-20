@@ -1,0 +1,130 @@
+[gd_scene load_steps=4 format=3 uid="uid://dga5rukq578qi"]
+
+[ext_resource type="FontFile" uid="uid://tr6p341gugen" path="res://assets/Quantumregular-MVmXr.otf" id="1_3bobg"]
+[ext_resource type="Script" uid="uid://lhslmbuau2h" path="res://assets/scripts/Hud.cs" id="1_ngyco"]
+[ext_resource type="Texture2D" uid="uid://cpdhunavlr03u" path="res://assets/sprites/icon.png" id="2_ngyco"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_ngyco")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -233.5
+offset_top = 10.0
+offset_right = 233.5
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.4, 0.4, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 50
+text = "HokuszPokusz V2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = 80.0
+offset_right = 64.5
+offset_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 30
+text = "START"
+
+[node name="Icon" type="TextureRect" parent="Menu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -120.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_ngyco")
+
+[node name="Playing" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Score" type="Label" parent="Playing"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 115.0
+offset_bottom = 42.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 25
+text = "Score: 0"
+
+[node name="HiScore" type="Label" parent="Playing"]
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 146.0
+offset_bottom = 66.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 25
+text = "Hi-Score: 0"
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Message" type="Label" parent="GameOver"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -167.5
+offset_top = -24.5
+offset_right = 167.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.588235, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 50
+text = "GAME OVER"
+
+[node name="RetryButton" type="Button" parent="GameOver"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = 50.0
+offset_right = 64.5
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_3bobg")
+theme_override_font_sizes/font_size = 30
+text = "RETRY"
+
+[connection signal="pressed" from="Menu/StartButton" to="." method="OnStartButtonPress"]
+[connection signal="pressed" from="GameOver/RetryButton" to="." method="OnRetryButtonPress"]

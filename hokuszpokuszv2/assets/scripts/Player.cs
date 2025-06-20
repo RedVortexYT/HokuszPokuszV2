@@ -17,12 +17,18 @@ public partial class Player : CharacterBody2D
 				CollisionShape2D.PropertyName.Disabled,
 				true
 			);
-			Hide();
+			GetNode<AnimatedSprite2D>("Anim").Hide();
 
-			GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
-				CollisionShape2D.PropertyName.Disabled,
-				true
+			SWORD.SetDeferred(
+				Area2D.PropertyName.Monitoring,
+				false
 			);
+			SWORD.Hide();
+
+			GetNode<AudioStreamPlayer>("DeathSound").Play();
+			GetNode<GpuParticles2D>("DeathParticle").Emitting = true;
+
+			GlobalData.GameData._gameState = GlobalData.GameState.GameOver;
 		}
 	}
 
@@ -30,9 +36,9 @@ public partial class Player : CharacterBody2D
 	public void OnAttackTimerTimeout()
 	{
 		canAttack = true;
-		GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
-			CollisionShape2D.PropertyName.Disabled,
-			true
+		SWORD.SetDeferred(
+			Area2D.PropertyName.Monitoring,
+			false
 		);
 	}
 
@@ -41,95 +47,115 @@ public partial class Player : CharacterBody2D
 		canAttack = true;
 		ANIM = GetNode<AnimatedSprite2D>("Anim");
 		SWORD = GetNode<Area2D>("Sword");
-		GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
-			CollisionShape2D.PropertyName.Disabled,
-			true
+		SWORD.SetDeferred(
+			Area2D.PropertyName.Monitoring,
+			false
 		);
     }
 
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-
-		// Gravity
-		if (!IsOnFloor())
+		var gameState = GlobalData.GameData._gameState;
+		if (gameState == GlobalData.GameState.Menu)
 		{
-			velocity += GetGravity() * (float)delta;
-		}
-
-		// Jumping
-		if (Input.IsActionJustPressed("jump") && IsOnFloor())
-		{
-			velocity.Y = -JUMPVELOCITY;
-		}
-
-		// Movement
-		float direction = Input.GetAxis("moveL", "moveR");
-		if (direction != 0)
-		{
-			velocity.X = direction * SPEED;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, SPEED);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
-
-		// Animation
-		if (direction < 0)
-		{
-			ANIM.FlipH = true;
-			ANIM.Play();
-		}
-		else if (direction > 0)
-		{
-			ANIM.FlipH = false;
-			ANIM.Play();
-		}
-		else
-		{
-			ANIM.Stop();
-		}
-
-		// Sword Position
-		if (direction < 0)
-		{
-			SWORD.Position = new Vector2(-32, 4);
-			SWORD.GetNode<Sprite2D>("Sprite").FlipH = true;
-		}
-		else if (direction > 0)
-		{
-			SWORD.Position = new Vector2(32, 4);
-			SWORD.GetNode<Sprite2D>("Sprite").FlipH = false;
-		}
-
-		// Attack
-		if (Input.IsActionPressed("attack") && canAttack)
-		{
-			GetNode<CollisionShape2D>("Sword/Hitbox").SetDeferred(
+			GlobalPosition = new Vector2(480, 480);
+			GetNode<CollisionShape2D>("Hitbox").SetDeferred(
 				CollisionShape2D.PropertyName.Disabled,
 				false
 			);
+			GetNode<AnimatedSprite2D>("Anim").Show();
 
-			canAttack = false;
-			GetNode<Timer>("Sword/AttackTimer").Start();
-
-			SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
+			SWORD.SetDeferred(
+				Area2D.PropertyName.Monitoring,
+				true
+			);
+			SWORD.Show();
 		}
 
-		// Sword Rotation
-		if (SWORD.Rotation != 0)
+		else if (gameState == GlobalData.GameState.Playing)
 		{
-			SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
-		}
+			Vector2 velocity = Velocity;
 
-		// Sword Rotation Reset
-		if (SWORD.Rotation > Mathf.DegToRad(360) || SWORD.Rotation < Mathf.DegToRad(-360))
-		{
-			SWORD.Rotation = 0;
+			// Gravity
+			if (!IsOnFloor())
+			{
+				velocity += GetGravity() * (float)delta;
+			}
+
+			// Jumping
+			if (Input.IsActionJustPressed("jump") && IsOnFloor())
+			{
+				velocity.Y = -JUMPVELOCITY;
+			}
+
+			// Movement
+			float direction = Input.GetAxis("moveL", "moveR");
+			if (direction != 0)
+			{
+				velocity.X = direction * SPEED;
+			}
+			else
+			{
+				velocity.X = Mathf.MoveToward(Velocity.X, 0, SPEED);
+			}
+
+			Velocity = velocity;
+			MoveAndSlide();
+
+			// Animation
+			if (direction < 0)
+			{
+				ANIM.FlipH = true;
+				ANIM.Play();
+			}
+			else if (direction > 0)
+			{
+				ANIM.FlipH = false;
+				ANIM.Play();
+			}
+			else
+			{
+				ANIM.Stop();
+			}
+
+			// Sword Position
+			if (direction < 0)
+			{
+				SWORD.Position = new Vector2(-32, 4);
+				SWORD.GetNode<Sprite2D>("Sprite").FlipH = true;
+			}
+			else if (direction > 0)
+			{
+				SWORD.Position = new Vector2(32, 4);
+				SWORD.GetNode<Sprite2D>("Sprite").FlipH = false;
+			}
+
+			// Attack
+			if (Input.IsActionPressed("attack") && canAttack)
+			{
+				SWORD.SetDeferred(
+					Area2D.PropertyName.Monitoring,
+					true
+				);
+
+				canAttack = false;
+				GetNode<Timer>("Sword/AttackTimer").Start();
+
+				SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
+			}
+
+			// Sword Rotation
+			if (SWORD.Rotation != 0)
+			{
+				SWORD.Rotation += SWORD.Position.X / 2 * (float)delta;
+			}
+
+			// Sword Rotation Reset
+			if (SWORD.Rotation > Mathf.DegToRad(360) || SWORD.Rotation < Mathf.DegToRad(-360))
+			{
+				SWORD.Rotation = 0;
+			}
 		}
 
 	}

@@ -3,7 +3,11 @@ public class GlobalData
     public class GameData()
     {
         public static int _score = 0;
+        public static int _hiScore = 0;
+        public static GameState _gameState = GameState.Menu;
     }
+
+    public enum GameState { Menu, Playing, GameOver }
 }
 
 /*

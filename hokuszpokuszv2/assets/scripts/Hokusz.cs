@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Godot;
 
 public partial class Hokusz : CharacterBody2D
@@ -7,13 +8,28 @@ public partial class Hokusz : CharacterBody2D
 	public const float Speed = 100.0f;
 	public const float JumpVelocity = 750.0f;
 
+	// Removal
+	public void OnQueueFreeTimerTimeout() { QueueFree(); }
+
 	// Collision
 	public void OnAreaEntered(Area2D area)
 	{
 		if (area.IsInGroup("sword"))
 		{
+			GetNode<CollisionShape2D>("Hitbox").SetDeferred(
+				CollisionShape2D.PropertyName.Disabled,
+				true
+			);
+			GetNode<Area2D>("CollCheck").SetDeferred(
+				Area2D.PropertyName.Monitorable,
+				false
+			);
+			GetNode<AnimatedSprite2D>("Anim").Hide();
+			GetNode<Timer>("QueueFreeTimer").Start();
+
 			GlobalData.GameData._score += 100;
-			QueueFree();
+			GetNode<AudioStreamPlayer>("DeathSound").Play();
+			GetNode<GpuParticles2D>("DeathParticle").Emitting = true;
 		}
 	}
 
@@ -41,35 +57,54 @@ public partial class Hokusz : CharacterBody2D
 		}
 	}
 
+	public override void _Ready()
+	{
+		LocatePlayer();
+		GetNode<AnimatedSprite2D>("Anim").Play();
+    }
+
+
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector2 velocity = Velocity;
-
-		// Gravity
-		if (!IsOnFloor())
+		var gameState = GlobalData.GameData._gameState;
+		if (gameState == GlobalData.GameState.Menu || gameState == GlobalData.GameState.GameOver)
 		{
-			velocity += GetGravity() * (float)delta;
+			QueueFree();
 		}
 
-		// Jump
-		if (jump && IsOnFloor())
+		else if (gameState == GlobalData.GameState.Playing)
 		{
-			jump = false;
-			velocity.Y = -JumpVelocity;
+			Vector2 velocity = Velocity;
+
+			// Gravity
+			if (!IsOnFloor())
+			{
+				velocity += GetGravity() * (float)delta;
+			}
+
+			// Jump
+			if (jump && IsOnFloor())
+			{
+				jump = false;
+				velocity.Y = -JumpVelocity;
+			}
+
+			// Movement
+			if (direction != 0)
+			{
+				velocity.X = direction * Speed;
+			}
+			else
+			{
+				velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			}
+
+			// Sprite flip
+			GetNode<AnimatedSprite2D>("Anim").FlipH = direction < 0;
+
+			Velocity = velocity;
+			MoveAndSlide();
 		}
 
-		// Movement
-		if (direction != 0)
-		{
-			velocity.X = direction * Speed;
-		}
-		else
-		{
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-		}
-
-		Velocity = velocity;
-		MoveAndSlide();
-		
 	}
 }
