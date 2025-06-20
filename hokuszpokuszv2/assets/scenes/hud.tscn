@@ -8,6 +8,15 @@
 script = ExtResource("1_ngyco")
 
 [node name="Menu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.3, 0.3, 1)
 
 [node name="Title" type="Label" parent="Menu"]
 anchors_preset = 8
@@ -90,6 +99,14 @@ text = "Hi-Score: 0"
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 visible = false
+
+[node name="ColorRect" type="ColorRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3, 0.3, 0.3, 1)
 
 [node name="Message" type="Label" parent="GameOver"]
 anchors_preset = 8

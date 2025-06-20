@@ -20,7 +20,7 @@ public partial class Player : CharacterBody2D
 			GetNode<AnimatedSprite2D>("Anim").Hide();
 
 			SWORD.SetDeferred(
-				Area2D.PropertyName.Monitoring,
+				Area2D.PropertyName.Monitorable,
 				false
 			);
 			SWORD.Hide();
@@ -37,7 +37,7 @@ public partial class Player : CharacterBody2D
 	{
 		canAttack = true;
 		SWORD.SetDeferred(
-			Area2D.PropertyName.Monitoring,
+			Area2D.PropertyName.Monitorable,
 			false
 		);
 	}
@@ -48,7 +48,7 @@ public partial class Player : CharacterBody2D
 		ANIM = GetNode<AnimatedSprite2D>("Anim");
 		SWORD = GetNode<Area2D>("Sword");
 		SWORD.SetDeferred(
-			Area2D.PropertyName.Monitoring,
+			Area2D.PropertyName.Monitorable,
 			false
 		);
     }
@@ -66,10 +66,6 @@ public partial class Player : CharacterBody2D
 			);
 			GetNode<AnimatedSprite2D>("Anim").Show();
 
-			SWORD.SetDeferred(
-				Area2D.PropertyName.Monitoring,
-				true
-			);
 			SWORD.Show();
 		}
 
@@ -135,7 +131,7 @@ public partial class Player : CharacterBody2D
 			if (Input.IsActionPressed("attack") && canAttack)
 			{
 				SWORD.SetDeferred(
-					Area2D.PropertyName.Monitoring,
+					Area2D.PropertyName.Monitorable,
 					true
 				);
 

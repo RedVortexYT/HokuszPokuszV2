@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="HokuszPokuszV2"
+config/name="HokuszPokusz V2"
 run/main_scene="res://assets/scenes/main.tscn"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+boot_splash/bg_color=Color(0.3, 0.3, 0.3, 1)
 boot_splash/fullsize=false
 boot_splash/image="uid://cpdhunavlr03u"
 config/icon="uid://cpdhunavlr03u"
@@ -21,6 +22,7 @@ config/icon="uid://cpdhunavlr03u"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
+window/stretch/mode="canvas_items"
 
 [dotnet]
 
